@@ -8,7 +8,10 @@ import matplotlib
 
 matplotlib.use("Agg")
 
+def hard_sigmoid(x):
+    return (1 + F.hardtanh(2 * x - 1)) * 0.5
 
+    
 class P_CNN_continuous(torch.nn.Module):
     def __init__(self, in_size, channels, kernels, strides, fc, pools, paddings, activation=hard_sigmoid, softmax=False):
         super(P_CNN_continuous, self).__init__()
