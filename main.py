@@ -17,6 +17,7 @@ import math
 import sys
 from model_utils import *
 from data_utils import *
+from continuous_model import P_CNN_continuous
 
 parser = argparse.ArgumentParser(description="Eqprop")
 parser.add_argument("--model", type=str, default="MLP", metavar="m", help="model")
@@ -50,7 +51,7 @@ parser.add_argument("--scale", type=float, default=None, metavar="g", help="scal
 parser.add_argument("--save", default=False, action="store_true", help="saving results")
 parser.add_argument("--todo", type=str, default="train", metavar="tr", help="training or plot gdu curves")
 parser.add_argument("--load-path", type=str, default="", metavar="l", help="load a model")
-parser.add_argument("--seed", type=int, default=None, metavar="s", help="random seed")
+parser.add_argument("--seed", type=int, default=1, metavar="s", help="random seed")
 parser.add_argument("--device", type=int, default=0, metavar="d", help="device")
 parser.add_argument("--thirdphase", default=False, action="store_true", help="add third phase for higher order evaluation of the gradient (default: False)")
 parser.add_argument("--softmax", default=False, action="store_true", help="softmax loss with parameters (default: False)")
@@ -166,6 +167,8 @@ if args.load_path == "":
             channels = [3] + args.channels
             if args.model == "CNN":
                 model = P_CNN(32, channels, args.kernels, args.strides, args.fc, pools, args.paddings, activation=activation, softmax=args.softmax)
+            elif args.model == "CNN_continuous":
+                model = P_CNN_continuous(32, channels, args.kernels, args.strides, args.fc, pools, args.paddings, activation=activation, softmax=args.softmax)
             elif args.model == "VFCNN":
                 model = VF_CNN(32, channels, args.kernels, args.strides, args.fc, pools, args.paddings, activation=activation, softmax=args.softmax, same_update=args.same_update)
 
